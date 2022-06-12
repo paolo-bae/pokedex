@@ -25,6 +25,7 @@ struct ContentView: View {
                 VStack(alignment: .leading) {
                     Text("Pokédex")
                         .font(.largeTitle)
+                        .bold()
                         .foregroundColor(.red)
                     Text("The Pokédex contains detailed stats for every creature from the Pokémon games.")
                         .font(.subheadline)
@@ -44,16 +45,16 @@ struct ContentView: View {
                     .animation(.easeIn(duration: 0.3), value: vm.filteredPokemon.count)
                 }
             }
+            .padding(.horizontal)
             //MARK: Show Selected Pokemon Detail View
-//            if show {
-//                Color.black(opacity(0.3).ignoresSafeArea())
-//
-//                PokemonDetailView(pokemon: Pokemon.samplePokemon)
-//                    .transition(.move(edge: .bottom))
-//                    .zIndex(1)
-//            }
+            if show {
+                Color.black.opacity(0.3).ignoresSafeArea()
+
+                PokemonDetailView(pokemon: Pokemon.samplePokemon)
+                    .transition(.move(edge: .bottom))
+                    .zIndex(1)
+            }
         }
-        .padding(.horizontal)
     }
 }
 
