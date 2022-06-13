@@ -17,6 +17,7 @@ struct ContentView: View {
     
     @StateObject var vm = ViewModel()
     @State var show = false
+    @State var selectedPokemon: Pokemon? = nil
     
     var body: some View {
         ZStack {
@@ -25,32 +26,34 @@ struct ContentView: View {
                 VStack(alignment: .leading) {
                     Text("Pokédex")
                         .font(.largeTitle)
-                        .bold()
                         .foregroundColor(.red)
+                        .bold()
                     Text("The Pokédex contains detailed stats for every creature from the Pokémon games.")
                         .font(.subheadline)
                         .foregroundColor(.gray)
                     Spacer()
                     LazyVStack {
                         ForEach(vm.filteredPokemon, id: \.id) { pokemon in
-                            
                             PokemonCard(pokemon: pokemon)
                                 .onTapGesture {
+                                    selectedPokemon = pokemon
                                     withAnimation() {
                                         show.toggle()
                                     }
                                 }
                         }
                     }
-                    .animation(.easeIn(duration: 0.3), value: vm.filteredPokemon.count)
                 }
             }
             .padding(.horizontal)
+//            .onTapGesture {
+//                show.toggle()
+//            }
             //MARK: Show Selected Pokemon Detail View
             if show {
                 Color.black.opacity(0.3).ignoresSafeArea()
-
-                PokemonDetailView(pokemon: Pokemon.samplePokemon)
+                
+                PokemonDetailView(pokemon: selectedPokemon!, show: $show)
                     .transition(.move(edge: .bottom))
                     .zIndex(1)
             }
